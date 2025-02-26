@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(() => {
       viewer.start();
     });
-  // console.log(viewer);
+  console.log(viewer);
   // scene.add(viewer);
 
   // open/close sections
