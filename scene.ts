@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+// import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { domeConfig, domeVertexShader, fragmentShader } from './shared.ts';
 import * as GaussianSplats3D from '@mkkellogg/gaussian-splats-3d';
 
@@ -53,7 +53,7 @@ const screenVideos = ['nyt.mp4', 'mgm.mp4', 'lanebreak.mp4'];
 export const videoElements: HTMLVideoElement[] = [];
 const screenGeometry = new THREE.PlaneGeometry(8, 4.5);
 
-screenColors.forEach((color, i) => {
+screenColors.forEach((_color, i) => {
   // console.log(i);
   videoElements[i] = document.createElement('video');
   videoElements[i].src = `/${screenVideos[i]}`;
@@ -75,6 +75,7 @@ screenColors.forEach((color, i) => {
     [0, 0, -10],
     [10, 0, 0]
   ];
+  // @ts-ignore
   screen.position.set(...positions[i]);
   screen.lookAt(0, 0, 0);
   screensGroup.add(screen);

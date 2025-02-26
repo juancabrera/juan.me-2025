@@ -1,7 +1,8 @@
 import './style.css';
 import { gsap } from 'gsap';
 import { domeConfig, isMobile } from '../shared.ts';
-import { scene, camera, renderer, viewer, domeMaterial, screensGroup, videoElements } from '../scene.ts';
+import { scene, camera, renderer, viewer, domeMaterial, videoElements } from '../scene.ts';
+// @ts-ignore
 import Tween = gsap.core.Tween;
 
 let currentRotation = Math.PI;
@@ -13,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   viewer
     .addSplatScene('/RDJuan.compressed.ply', {
       showLoadingUI: false,
+      // @ts-ignore
       position: [4, -3.5, 10],
       rotation: [0, -0.5, 0, 0.9239]
     })
@@ -44,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  const setVideoProgress = (index, value) => {
+  const setVideoProgress = (index: number, value: number) => {
     const video = videoElements[index];
     if (video && value >= 0 && value <= 1) {
       video.currentTime = video.duration * value;
@@ -54,9 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // hovers / screens
   if (!isMobile()) {
     document.querySelectorAll('.sr').forEach(e => {
+      // @ts-ignore
       const s = parseInt(e.getAttribute('data-screen'));
       let isMouseMoving = false;
-      let movementTimer;
+      let movementTimer: number | undefined;
 
       e.addEventListener('mousemove', event => {
         if (!isMouseMoving) {
@@ -64,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
           isMouseMoving = true;
         } else {
           const rect = e.getBoundingClientRect();
+          // @ts-ignore
           const progressX = Math.max(0, Math.min(100, ((event.clientX - rect.left) / rect.width) * 100));
           setVideoProgress(s - 2, progressX / 100);
         }
@@ -98,26 +102,15 @@ document.addEventListener('DOMContentLoaded', () => {
   gsap.fromTo('.hand', { y: -8, rotation: 60 }, { y: 0, rotation: 0, duration: 0.3, repeat: -1, repeatDelay: 4 });
 });
 
-let screensTween;
 let rots = [Math.PI, Math.PI * 1.5, Math.PI * 2, Math.PI * 2.5];
+// @ts-ignore
 let sgr = { y: 0 };
-const rotateScreens = screenNumber => {
+const rotateScreens = (screenNumber: number) => {
+  // @ts-ignore
   const r = rots[screenNumber] - 0.2;
-  screensTween = gsap.fromTo(
-    sgr,
-    { y: screensGroup.rotation.y },
-    {
-      y: r,
-      duration: 1,
-      ease: 'power3.out',
-      onUpdate: () => {
-        screensGroup.rotation.y = sgr.y;
-        // console.log(sgr.y);
-      }
-    }
-  );
 };
 
+// @ts-ignore
 let tweenJuanPos: Tween, tweenJuanRot;
 const showHideJuan = (show: boolean = true) => {
   // if (tweenJuanPos) tweenJuanPos.pause();
