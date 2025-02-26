@@ -5,3 +5,18 @@
 .s-closed {
     display: none;
 }
+
+canvas {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+@media (min-width: 1024px) {
+    canvas {
+        position: relative!important; /* Change to absolute or other positioning */
+
+    }
+}
