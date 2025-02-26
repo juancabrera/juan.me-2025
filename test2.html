@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Three.js Rotating Sphere</title>
+  <style>
+      body { margin: 0; }
+      canvas { display: block; }
+      #rotateButton {
+          position: absolute;
+          top: 20px;
+          left: 20px;
+          padding: 10px;
+          background: #0077ff;
+          color: white;
+          border: none;
+          cursor: pointer;
+      }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r132/three.min.js"></script>
+</head>
+<body>
+<button id="rotateButton">Next Rotation</button>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    if (typeof THREE === 'undefined') {
+      console.error('THREE.js not loaded.');
+      return;
+    }
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    const sphereGroup = new THREE.Group();
+    scene.add(sphereGroup);
+
+    const loader = new THREE.TextureLoader();
+    const envMap = loader.load('https://threejs.org/examples/textures/skybox/sunset.jpg');
+
+    const sphere = new THREE.Mesh(
+      new THREE.SphereGeometry(50, 32, 32),
+      new THREE.MeshStandardMaterial({
+        color: 0x0077ff,
+        metalness: 0.8,
+        roughness: 0.1,
+        envMap: envMap,
+        side: THREE.BackSide
+      })
+    );
+    sphereGroup.add(sphere);
+
+    const screenGeometry = new THREE.PlaneGeometry(2, 2);
+    const screenColors = [0xff0000, 0x00ff00, 0x0000ff];
+
+    screenColors.forEach((color, i) => {
+      const screen = new THREE.Mesh(screenGeometry, new THREE.MeshBasicMaterial({ color }));
+      const positions = [[0, 0, -4.5], [-4.5, 0, 0], [4.5, 0, 0]];
+      screen.position.set(...positions[i]);
+      screen.lookAt(0, 0, 0);
+      sphereGroup.add(screen);
+    });
+
+    camera.position.set(0, 0, 15);
+    let currentRotation = 0;
+
+    document.getElementById('rotateButton').addEventListener('click', () => {
+      currentRotation += Math.PI / 2;
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      sphereGroup.rotation.y += (currentRotation - sphereGroup.rotation.y) * 0.05;
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  });
+</script>
+</body>
+</html>

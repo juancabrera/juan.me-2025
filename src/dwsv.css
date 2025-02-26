@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bg-template {
+    background-image: url("/blank-template-post.png");
+}
+
+.sentence {
+    font-family: "Rubik Mono One", monospace;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 54px;
+    line-height: 86px;
+    color: white;
+    -webkit-font-smoothing: antialiased;
+}
