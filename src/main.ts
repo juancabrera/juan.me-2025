@@ -1,7 +1,7 @@
 import './style.css';
 import { gsap } from 'gsap';
 import { domeConfig, isMobile } from '../shared.ts';
-import { scene, camera, renderer, viewer, domeMaterial, videoElements } from '../scene.ts';
+import { scene, camera, renderer, viewer, domeMaterial, screensGroup, videoElements } from '../scene.ts';
 // @ts-ignore
 import Tween = gsap.core.Tween;
 
@@ -102,12 +102,26 @@ document.addEventListener('DOMContentLoaded', () => {
   gsap.fromTo('.hand', { y: -8, rotation: 60 }, { y: 0, rotation: 0, duration: 0.3, repeat: -1, repeatDelay: 4 });
 });
 
-let rots = [Math.PI, Math.PI * 1.5, Math.PI * 2, Math.PI * 2.5];
 // @ts-ignore
+let screensTween;
+let rots = [Math.PI, Math.PI * 1.5, Math.PI * 2, Math.PI * 2.5];
 let sgr = { y: 0 };
-const rotateScreens = (screenNumber: number) => {
-  // @ts-ignore
+// @ts-ignore
+const rotateScreens = screenNumber => {
   const r = rots[screenNumber] - 0.2;
+  screensTween = gsap.fromTo(
+    sgr,
+    { y: screensGroup.rotation.y },
+    {
+      y: r,
+      duration: 1,
+      ease: 'power3.out',
+      onUpdate: () => {
+        screensGroup.rotation.y = sgr.y;
+        // console.log(sgr.y);
+      }
+    }
+  );
 };
 
 // @ts-ignore
